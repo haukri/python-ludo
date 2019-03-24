@@ -79,9 +79,9 @@ class LudoVisualizer(pyglet.window.Window):
                 player.draw()
 
     def play(self, dt):
-        self.playerPositions = self.ludo.playStepPlayer()
+        self.playerPositions = self.ludo.playStep()
         if self.playerPositions:
-            pass  # clock.schedule_once(self.play, 0.01)
+            clock.schedule_once(self.play, 0.1)
         else:
             print("And the winner is", self.ludo.winner, "!")
             exit()
