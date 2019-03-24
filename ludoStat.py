@@ -1,6 +1,5 @@
 from LudoGame import LudoGame
 from LudoPlayer import LudoPlayer
-import random
 
 
 ludoPlayer0 = LudoPlayer(0)
@@ -11,10 +10,10 @@ players = [ludoPlayer0, ludoPlayer1, ludoPlayer2, ludoPlayer3]
 
 score = [0, 0, 0, 0]
 
-for i in range(1000):
-    random.shuffle(players)
+for i in range(5000):
     ludo = LudoGame(players)
     winner = ludo.playFullGame()
     score[winner] += 1
+    print('Game ', i, ' done')
 
 print(score)

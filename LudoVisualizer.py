@@ -15,7 +15,7 @@ class LudoVisualizer(pyglet.window.Window):
         self.ludoPlayer1 = LudoPlayer(1)
         self.ludoPlayer2 = LudoPlayer(2)
         self.ludoPlayer3 = LudoPlayer(3)
-        self.ludo = LudoGame([self.ludoPlayer0, self.ludoPlayer1, self.ludoPlayer2, self.ludoPlayer3], info=True)
+        self.ludo = LudoGame([self.ludoPlayer0, self.ludoPlayer1, self.ludoPlayer2, self.ludoPlayer3], info=False)
         # Load sprites
         self.width, self.height = 600, 600
         greenPlayerImage = pyglet.resource.image('greenPlayer.png')
@@ -79,10 +79,11 @@ class LudoVisualizer(pyglet.window.Window):
                 player.draw()
 
     def play(self, dt):
-        self.playerPositions = self.ludo.playStep()
+        self.playerPositions = self.ludo.playStepPlayer()
         if self.playerPositions:
-            clock.schedule_once(self.play, 0.05)
+            pass  # clock.schedule_once(self.play, 0.01)
         else:
+            print("And the winner is", self.ludo.winner, "!")
             exit()
 
     def on_key_press(self, symbol, modifiers):
