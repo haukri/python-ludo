@@ -4,6 +4,7 @@ import re
 from collections import defaultdict
 from LudoGame import LudoGame
 from LudoPlayer import LudoPlayer
+from LudoPlayerRandom import LudoPlayerRandom
 
 
 class LudoVisualizer(pyglet.window.Window):
@@ -11,11 +12,11 @@ class LudoVisualizer(pyglet.window.Window):
     def __init__(self):
         super(LudoVisualizer, self).__init__()
 
-        self.ludoPlayer0 = LudoPlayer(0)
-        self.ludoPlayer1 = LudoPlayer(1)
-        self.ludoPlayer2 = LudoPlayer(2)
-        self.ludoPlayer3 = LudoPlayer(3)
-        self.ludo = LudoGame([self.ludoPlayer0, self.ludoPlayer1, self.ludoPlayer2, self.ludoPlayer3], info=False)
+        self.ludoPlayer0 = LudoPlayerRandom(0)
+        self.ludoPlayer1 = LudoPlayerRandom(1)
+        self.ludoPlayer2 = LudoPlayerRandom(2)
+        self.ludoPlayer3 = LudoPlayerRandom(3)
+        self.ludo = LudoGame([self.ludoPlayer0, self.ludoPlayer1, self.ludoPlayer2, self.ludoPlayer3], info=True)
         # Load sprites
         self.width, self.height = 600, 600
         greenPlayerImage = pyglet.resource.image('greenPlayer.png')

@@ -1,5 +1,4 @@
 from collections import defaultdict
-import numpy as np
 import random
 import logging
 
@@ -21,27 +20,38 @@ class LudoGame:
 
     def playStep(self, steps=1):
         for a in range(steps):
-            logging.info(str(self.playerPositions))
             for playerId, player in enumerate(self.players):
-                self.getRelativePlayerPositions(playerId)
-                diceRoll = random.randint(1, 6)
-                token = player.play(diceRoll, self.relativePlayerPositions)
-                if token != -1 and self.validateMove(playerId, token, diceRoll):
-                    self.moveToken(playerId, token, diceRoll)
-                if self.checkForWinner(playerId):
-                    return False
+                diceRoll, playerStrike = 6, 0
+                while(diceRoll == 6):
+                    playerStrike += 1
+                    self.getRelativePlayerPositions(playerId)
+                    diceRoll = random.randint(1, 6)
+                    if (diceRoll == 6 and playerStrike > 2) or playerStrike > 3:
+                        logging.info("You rolled 6 three times in a row or moved 3 times in a row!")
+                        break
+                    token = player.play(diceRoll, self.relativePlayerPositions)
+                    if token != -1 and self.validateMove(playerId, token, diceRoll):
+                        self.moveToken(playerId, token, diceRoll)
+                        if self.checkForWinner(playerId):
+                            return False
         return self.playerPositions
 
     def playFullGame(self):
         while not self.gameDone:
             for playerId, player in enumerate(self.players):
-                self.getRelativePlayerPositions(playerId)
-                diceRoll = random.randint(1, 6)
-                token = player.play(diceRoll, self.relativePlayerPositions)
-                if token != -1 and self.validateMove(playerId, token, diceRoll):
-                    self.moveToken(playerId, token, diceRoll)
-                    if self.checkForWinner(playerId):
-                        return self.winner
+                diceRoll, playerStrike = 6, 0
+                while(diceRoll == 6):
+                    playerStrike += 1
+                    self.getRelativePlayerPositions(playerId)
+                    diceRoll = random.randint(1, 6)
+                    if (diceRoll == 6 and playerStrike > 2) or playerStrike > 3:
+                        logging.info("You rolled 6 three times in a row or moved 3 times in a row!")
+                        break
+                    token = player.play(diceRoll, self.relativePlayerPositions)
+                    if token != -1 and self.validateMove(playerId, token, diceRoll):
+                        self.moveToken(playerId, token, diceRoll)
+                        if self.checkForWinner(playerId):
+                            return self.winner
 
     def checkForWinner(self, playerId):
         if all(x == 99 for x in self.playerPositions[playerId]):
