@@ -23,8 +23,13 @@ window = LudoVisualizerStep(game)
 pyglet.app.run()
 # use left and right arrow to progress game
 ```
+The above code can be run with the following command:
+```
+$ python3 -m pyludo.LudoVisualizer
+```
+See pyludo/LudoPlayerRandom.py for instructions of how to write a player.
 
-See LudoPlayerRandom.py for instructions of how to write a player.
+See tests/ludoStat.py for a headless example.
 
 ### implemented rules
 * Always four players.
