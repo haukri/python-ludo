@@ -1,6 +1,7 @@
 import random
 import logging
 import numpy as np
+from pyludo.utils import player_colors
 
 
 class LudoState:
@@ -81,14 +82,10 @@ class LudoState:
         # end zone move
         if target_pos == 57:  # token reached goal
             player[token_id] = 99
-        else:
-            if target_pos < 57:  # end zone move, no goal bounce
-                player[token_id] = target_pos
-            else:  # bounce back from goal pos
-                player[token_id] = 57
-                negative_dice_roll = 57 - target_pos
-                new_state = new_state.move_token(token_id, negative_dice_roll)  # try to move back
-
+        elif target_pos < 57:  # no goal bounce
+            player[token_id] = target_pos
+        else:  # bounce back from goal pos
+            player[token_id] = 57 - (target_pos - 57)
         return new_state
 
     def get_winner(self):
@@ -132,14 +129,13 @@ class LudoGame:
         player = self.players[self.currentPlayerId]
 
         dice_roll = random.randint(1, 6)
+        logging.info("Dice roll: {} - {}".format(dice_roll, player_colors[self.currentPlayerId]))
 
         relative_state = state.get_relative_to_player(self.currentPlayerId)
         rel_next_states = np.array(
             [relative_state.move_token(token_id, dice_roll) for token_id in range(4)]
         )
-        if np.sum(rel_next_states != False) == 0:
-            logging.info("no valid moves")
-        else:
+        if np.any(rel_next_states != False):
             token_id = player.play(relative_state, dice_roll, rel_next_states)
             if rel_next_states[token_id] is False:
                 logging.warning("Player chose invalid move. Choosing first valid move.")

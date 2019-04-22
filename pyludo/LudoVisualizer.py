@@ -2,6 +2,7 @@ import os
 import pyglet
 from pyglet.window import key
 from pyludo.LudoGame import LudoState
+from pyludo.utils import player_colors
 
 home_sprite_positions = [
     [(1, 10), (4, 10), (4, 13), (1, 13)],
@@ -31,8 +32,7 @@ class LudoVisualizer(pyglet.window.Window):
         self.scaling = min(bg_img.height, self.height) / max(bg_img.height, self.height)
         # load sprites
         self.backgroundSprite = self.load_sprite('ludoboard.png')
-        colors = ['green', 'blue', 'red', 'yellow']
-        self.playerSprites = [self.load_sprite(color + 'Player.png') for color in colors]
+        self.playerSprites = [self.load_sprite(color + 'Player.png') for color in player_colors]
         self.globeSprite = self.load_sprite('globe.png')
         self.starSprite = self.load_sprite('star.png')
 
